@@ -23,7 +23,7 @@ public class RecipeIngredient extends AbstractEntity {
 
     @NotNull
     @Max(value = 1000, message = "Quantity value cannot exceed 1000.")
-    private float quantity;
+    private double quantity;
 
     @NotNull
     @Length(max = 20, message = "Unit cannot exceed 20 characters.")
@@ -31,7 +31,7 @@ public class RecipeIngredient extends AbstractEntity {
 
     public RecipeIngredient() {}
 
-    public RecipeIngredient(Recipe recipe, Ingredient ingredient, float quantity, String unit) {
+    public RecipeIngredient(Recipe recipe, Ingredient ingredient, double quantity, String unit) {
         this.recipe = recipe;
         this.ingredient = ingredient;
         this.quantity = quantity;
@@ -54,11 +54,11 @@ public class RecipeIngredient extends AbstractEntity {
         this.ingredient = ingredient;
     }
 
-    public float getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(float quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 

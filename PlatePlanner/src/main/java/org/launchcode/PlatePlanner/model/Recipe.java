@@ -162,6 +162,9 @@ public class Recipe extends AbstractEntity {
 
     public void addRecipeIngredient(RecipeIngredient recipeIngredient) {
         recipeIngredients.add(recipeIngredient);
+        recipeIngredient.setRecipe(this);
+        System.out.println("Added recipeIngredient: " + recipeIngredient);
+        System.out.println("Current Set of Ingredients: " + recipeIngredients);
     }
 
     public void removeRecipeIngredient(RecipeIngredient recipeIngredient) {
