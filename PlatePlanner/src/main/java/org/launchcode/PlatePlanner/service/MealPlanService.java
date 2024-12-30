@@ -19,7 +19,7 @@ public class MealPlanService {
 
     //Users can create a meal plan so long as the name is unique
 
-    public MealPlan createMealPlan(Long userId, String mealPlanName) {
+    public MealPlan createMealPlan(Integer userId, String mealPlanName) {
         Optional<User> optionalUser = userRepository.findById(userId);
 
         if (optionalUser.isEmpty()) {

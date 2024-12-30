@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" >
+<!--<head th:replace="~{fragments :: head}"></head>-->
+<body>
+<!--<header th:replace="fragments :: header"></header>-->
+
+<main>
+    <h1>Log In</h1>
+    <form method="post">
+        <div class="container">
+            <div class="row">
+                <div class="form-item col-4">
+                    <label th:for="username">Username</label>
+                    <input th:field="${loginFormDTO.username}" />
+                    <p class="error" th:errors="${loginFormDTO.username}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="form-item col-4">
+                    <label th:for="password">Password</label>
+                    <input th:field="${loginFormDTO.password}" type="password" />
+                    <p class="error" th:errors="${loginFormDTO.password}"></p>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit">Log In</button>
+    </form>
+    <p class="mt-5">Don't have an account? <a href="/register">Register here.</a></p>
+</main>
+</body>
+</html>

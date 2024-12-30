@@ -9,6 +9,7 @@ import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+
 @MappedSuperclass
 public abstract class AbstractEntity {
 
@@ -27,11 +28,11 @@ public abstract class AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractEntity that = (AbstractEntity) o;
-        return Objects.equals(getId(), that.getId());
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return (getId() != null) ? getId().hashCode() : super.hashCode();
+        return Objects.hash(id);
     }
 }

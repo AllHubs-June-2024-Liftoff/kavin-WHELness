@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container body-content">
+
+<nav th:replace="fragments :: page-header"></nav>
+
+<h1>Create Account</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label>Username
+            <input class="form-control" th:field="${registrationFormDTO.username}" />
+        </label>
+        <p class="error" th:errors="${registrationFormDTO.username}"></p>
+    </div>
+    <div class="form-group">
+        <label>Password
+            <input class="form-control" th:field="${registrationFormDTO.password}" type="password" />
+        </label>
+        <p class="error" th:errors="${registrationFormDTO.password}"></p>
+    </div>
+    <div class="form-group">
+        <label>Verify Password
+            <input class="form-control" th:field="${registrationFormDTO.verifyPassword}" type="password" />
+        </label>
+        <p class="error" th:errors="${registrationFormDTO.verifyPassword}"></p>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Register" />
+</form>
+
+</body>
+</html>
