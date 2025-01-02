@@ -19,17 +19,17 @@ public class DataSeeder {
 
             System.out.println("DataSeeder is running...");
 
-            if (userRepository.count() == 0) {
-                System.out.println("Seeding user data...");
-
-                User user1 = new User("John Doe", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd2f6927f7d3b663f6", "john.doe@nomail.com", Role.USER);
-                User user2 = new User("Jane Doe", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd2f6927f7d3b663f7", "jane.doe@nomail.com", Role.ADMIN);
-
-                userRepository.save(user1);
-                userRepository.save(user2);
-
-                System.out.println("Users data saved.");
-            }
+//            if (userRepository.count() == 0) {
+//                System.out.println("Seeding user data...");
+//
+//                User user1 = new User("John Doe", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd2f6927f7d3b663f6", "john.doe@nomail.com", Role.USER);
+//                User user2 = new User("Jane Doe", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd2f6927f7d3b663f7", "jane.doe@nomail.com", Role.ADMIN);
+//
+//                userRepository.save(user1);
+//                userRepository.save(user2);
+//
+//                System.out.println("Users data saved.");
+//            }
 
             if(recipeRepository.count() == 0) {
                 System.out.println("Seeding recipe data...");
