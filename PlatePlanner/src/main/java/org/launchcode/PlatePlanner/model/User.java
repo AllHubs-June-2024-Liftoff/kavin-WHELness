@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User extends AbstractEntity {
 
     @NotNull
@@ -41,13 +42,13 @@ public class User extends AbstractEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ShoppingList> shoppingLists = new HashSet<>();
 
-    public User() {}
+//    public User() {}
 
 //    James will update this:
-//    public User() {
-//        super();
-//        ;
-//    }
+    public User() {
+        super();
+        ;
+    }
 
     public User(String username, String password, String email, Role role) {
         this.username = username;

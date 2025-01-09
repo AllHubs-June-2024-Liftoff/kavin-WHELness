@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import RecipeList from './components/RecipeList.jsx';
@@ -9,6 +10,7 @@ import MealPlanUI from './components/MealPlanUI';
 import ShoppingList from './components/ShoppingList.jsx';
 import UserProfile from './components/UserProfile.jsx';
 import LogOut from './components/LogOut.jsx';
+import AdminProfile from './components/AdminProfile.jsx';
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
         <Route path="/meal-plans" element={<MealPlanUI />} />
         <Route path="/shopping-lists" element={<ShoppingList />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/admin" element={<AdminProfile />} />
         <Route path="/logout" element={<LogOut />} />
       </Routes>
       {/* <RecipeTextSearch /> */}
