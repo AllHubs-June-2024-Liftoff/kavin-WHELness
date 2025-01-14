@@ -91,7 +91,7 @@ export default function App(props) {
                     console.log("recipeToTag: ", recipeToTag);
                 } else {
                     setActionMsg("Tags removed from recipe.");
-                    recipeToTag.tags = tagsToSave;
+                    recipeToTag.tags = [];
                 }
             })
             .catch((err) => {
