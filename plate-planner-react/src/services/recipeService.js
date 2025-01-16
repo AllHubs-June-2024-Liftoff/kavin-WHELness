@@ -113,4 +113,22 @@ export default {
 updateTagsToRecipe(recipeId, tagIds) {
   return httpClient.put(`/recipe/update-tags/${recipeId}`, tagIds);
 },
+/**
+   * This is the GET service call to retrieve a user's recipes that have been filtered by tag.
+   * It will return a 200 response with the list of filtered recipe objects.
+   * It will return a 404 if no user is found with the specified ID.
+   * It will return a 404 if no recipes are found belonging to the user.
+   * It will return a 404 if no filtered recipe objects are found.
+   * 
+   * 
+   * It hits the /recipe/filter-by-tag/{userId} endpoint with a GET request.
+   * 
+   * @example recipeService.filterRecipeByTag(1, [2, 3, 4]).then(response) => console.log(response.data));
+   * @param {number} userId The ID of the user whose recipes are being filtered.
+   * @param {array} tagIds The array with ID(s) of the tag(s) to filter recipes by.
+   * @returns The list of filtered Recipe objects.
+   */
+filterRecipesByTag(userId, tagIds) {
+  return httpClient.get(`/recipe/filter-by-tag/${userId}`, tagIds);
+},
 }
