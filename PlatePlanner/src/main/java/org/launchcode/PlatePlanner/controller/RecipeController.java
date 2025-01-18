@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -118,7 +120,7 @@ public class RecipeController {
     //Add and remove tags to recipe by ID
     //Removes all tags currently on recipe that are not in submitted list.
     @PutMapping("/update-tags/{recipeId}")
-    public ResponseEntity<Recipe> updateTagsToRecipe(@PathVariable("recipeId") Long recipeId, @RequestBody @Valid List<Long> tagIds) {
+    public ResponseEntity<Recipe> updateTagsToRecipe(@PathVariable("recipeId") Long recipeId, @RequestBody @Valid List<Long> tagIds, @AuthenticationPrincipal UserDetails userDetails) {
         logger.info("In updateTagsToRecipe...");
         Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
         if (optionalRecipe.isEmpty()) {
