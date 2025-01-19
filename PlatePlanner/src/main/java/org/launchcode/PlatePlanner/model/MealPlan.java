@@ -17,13 +17,9 @@ public class MealPlan extends AbstractEntity {
     @JsonIgnoreProperties({"mealPlans"})
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "mealplan_recipe",
-            joinColumns = @JoinColumn(name = "mealplan_id"),
-            inverseJoinColumns = @JoinColumn(name = "recipe_id")
-    )
-    private List<Recipe> recipes = new ArrayList<>();
+    @OneToMany(mappedBy = "mealPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"mealPlan"})
+    private List<MealPlanRecipe> mealPlanRecipes = new ArrayList<>();
 
     @OneToOne
     private ShoppingList shoppingList;
@@ -55,20 +51,28 @@ public class MealPlan extends AbstractEntity {
         this.user = user;
     }
 
-    public List<Recipe> getRecipes() {
-        return recipes;
+    public List<MealPlanRecipe> getMealPlanRecipes() {
+        return mealPlanRecipes;
     }
 
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
+    public void setMealPlanRecipes(List<MealPlanRecipe> mealPlanRecipes) {
+        this.mealPlanRecipes = mealPlanRecipes;
+    }
+
+    public void addMealPlanRecipe(MealPlanRecipe mealPlanRecipe) {
+        mealPlanRecipes.add(mealPlanRecipe);
+        mealPlanRecipe.setMealPlan(this);
     }
 
     public void addRecipe(Recipe recipe) {
-        recipes.add(recipe);
+        MealPlanRecipe mealPlanRecipe = new MealPlanRecipe(this, recipe);
+        this.mealPlanRecipes.add(mealPlanRecipe);
+        mealPlanRecipe.setMealPlan(this);
     }
 
-    public void removeRecipe(Recipe recipe) {
-        recipes.remove(recipe);
+    public void removeMealPlanRecipe(MealPlanRecipe mealPlanRecipe) {
+        mealPlanRecipes.remove(mealPlanRecipe);
+        mealPlanRecipe.setMealPlan(null);
     }
 
     public ShoppingList getShoppingList() {

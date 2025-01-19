@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import RecipeCards from './RecipeCards.jsx';
 import recipeService from "@/services/recipeService.js";
 

@@ -160,4 +160,20 @@ public class MealPlanController {
         return ResponseEntity.ok(updatedMealPlan);
     }
 
+    @GetMapping("/test-meal-plan")
+    public ResponseEntity<MealPlan> getTestMealPlan() {
+        logger.info("In getTestMealPlan...");
+
+        Optional<MealPlan> optionalMealPlan = mealPlanRepository.findById(1L);
+        if (optionalMealPlan.isEmpty()) {
+            logger.warn("MealPlan with ID 1 not found.");
+            return ResponseEntity.notFound().build();
+        }
+
+        MealPlan testMealPlan = optionalMealPlan.get();
+        logger.info("Found Meal Plan 1: {}", testMealPlan.getName());
+
+        return ResponseEntity.ok(testMealPlan);
+    }
+
 }

@@ -1,11 +1,12 @@
 package org.launchcode.PlatePlanner.controllers;
 
-
 import jakarta.validation.Valid;
-import org.launchcode.PlatePlanner.model.AppUser;
 import org.launchcode.PlatePlanner.model.RegisterDto;
-import org.launchcode.PlatePlanner.repository.AppUserRepository;
+import org.launchcode.PlatePlanner.model.Role;
+import org.launchcode.PlatePlanner.model.User;
+import org.launchcode.PlatePlanner.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +16,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Date;
+import java.util.Optional;
 
 @Controller
 public class AccountController {
     @Autowired
-    private AppUserRepository repo;
+    private UserRepository userRepository;
+
+    @GetMapping("/profile")
+    public String profile(Authentication auth, Model model) {
+        Optional<User> optUser = userRepository.findByEmail(((User) auth.getPrincipal()).getEmail());
+        User user = optUser.get();
+        model.addAttribute("appUser", user);
+
+        return "profile";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -44,8 +59,8 @@ public class AccountController {
             );
         }
 
-        AppUser appUser = repo.findByEmail(registerDto.getEmail());
-        if (appUser != null) {
+        Optional<User> user = userRepository.findByEmail(registerDto.getEmail());
+        if (user.isPresent()) {
             result.addError(
                     new FieldError("registerDto", "email"
                             , "Email address is already used")
@@ -57,21 +72,21 @@ public class AccountController {
         }
 
         try {
-            //Create new account
+
             var bCryptEncoder = new BCryptPasswordEncoder();
 
-            AppUser newUser = new AppUser();
+            User newUser = new User();
             newUser.setFirstName(registerDto.getFirstName());
-            newUser.setLastname(registerDto.getLastName());
+            newUser.setLastName(registerDto.getLastName());
             newUser.setEmail(registerDto.getEmail());
             newUser.setPhone(registerDto.getPhone());
             newUser.setAddress(registerDto.getAddress());
+            newUser.setUsername(registerDto.getUsername());
 
-            newUser.setRole("client");
-            newUser.setCreatedAt(new Date());
+            newUser.setRole(Role.USER);
             newUser.setPassword(bCryptEncoder.encode(registerDto.getPassword()));
 
-            repo.save(newUser);
+            userRepository.save(newUser);
 
             model.addAttribute("registerDto", new RegisterDto());
             model.addAttribute("success", true);

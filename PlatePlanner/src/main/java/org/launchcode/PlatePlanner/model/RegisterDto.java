@@ -12,6 +12,18 @@ public class RegisterDto {
     @NotEmpty
     private  String lastName;
 
+    @NotEmpty
+    private String username;
+
+    @NotEmpty
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getFirstName() {
         return firstName;
     }

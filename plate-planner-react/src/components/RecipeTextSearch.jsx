@@ -3,6 +3,7 @@ import axios from "axios";
 import RecipeCards from './RecipeCards.jsx';
 
 
+
 const RecipeTextSearch = () => {
     const [query, setQuery] = useState('');
     const [searchRecipes, setSearchRecipes] = useState();
@@ -19,13 +20,16 @@ const RecipeTextSearch = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
-        fetch('http://localhost:8080/search-recipes?q=' + query)
+        fetch('http://localhost:8080/search-recipes?q=' + query, {
+            credentials: 'include',
+            mode: 'cors'
+          })
         .then(response => response.json())
         .then(data => { 
             setSearchRecipes(data);
             setLoading(false);
         })
-        .catch(error => {
+        .catch(err => {
             setError(err.message);
             setLoading(false);
         });

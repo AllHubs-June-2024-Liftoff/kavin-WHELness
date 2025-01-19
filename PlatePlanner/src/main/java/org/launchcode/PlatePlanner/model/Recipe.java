@@ -7,7 +7,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,13 +24,9 @@ public class Recipe extends AbstractEntity {
     )
     private Set<User> user = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "mealplan_recipe",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "mealplan_id")
-    )
-    private Set<MealPlan> mealPlans = new HashSet<>();
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"recipe"})
+    private List<MealPlanRecipe> mealPlanRecipes = new ArrayList<>();
 
     @NotNull
     @Length(max=75, message="Recipe name cannot exceed 75 characters.")
@@ -88,6 +87,14 @@ public class Recipe extends AbstractEntity {
         this.imageURL = imageURL;
         this.sourceURL = sourceURL;
         this.tags = tags;
+    }
+
+    public List<MealPlanRecipe> getMealPlanRecipes() {
+        return mealPlanRecipes;
+    }
+
+    public void setMealPlanRecipes(List<MealPlanRecipe> mealPlanRecipes) {
+        this.mealPlanRecipes = mealPlanRecipes;
     }
 
     public String getName() {

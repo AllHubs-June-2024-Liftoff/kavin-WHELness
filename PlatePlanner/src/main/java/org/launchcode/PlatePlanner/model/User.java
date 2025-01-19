@@ -5,12 +5,18 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-public class User extends AbstractEntity {
+public class User extends AbstractEntity implements UserDetails {
 
     @NotNull
     @Length(max = 25, message = "Username cannot exceed 25 characters.")
@@ -33,6 +39,14 @@ public class User extends AbstractEntity {
     @NotNull
     private LocalDateTime createdAt;
 
+    @NotNull
+    private boolean enabled;
+
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private String address;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({"user"})
     private Set<MealPlan> mealPlans = new HashSet<>();
@@ -45,12 +59,6 @@ public class User extends AbstractEntity {
 
     public User() {}
 
-//    James will update this:
-//    public User() {
-//        super();
-//        ;
-//    }
-
     public User(String username, String password, String email, Role role) {
         this.username = username;
         this.password = password;
@@ -61,19 +69,14 @@ public class User extends AbstractEntity {
     @PrePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
-        this.role = Role.USER;
-    }
-
-    public String getUsername() {
-        return username;
+        if (this.role == null) {
+            this.role = Role.USER;
+        }
+        this.enabled = true;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {
@@ -154,8 +157,63 @@ public class User extends AbstractEntity {
         shoppingLists.remove(shoppingList);
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "Username: " + this.username + " | User ID: " + this.getId();
     }
+
+    //UserDetails Implementations:
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
 }
