@@ -12,6 +12,10 @@
         <h2 class="text-center mb-4">Profile</h2>
         <hr>
         <div class="row mb-2">
+            <div class="col">User Name</div>
+            <div class="col" th:text="${appUser.username}"></div>
+        </div>
+        <div class="row mb-2">
             <div class="col">First Name</div>
             <div class="col" th:text="${appUser.firstName}"></div>
         </div>

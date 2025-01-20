@@ -15,7 +15,7 @@ const Nav = () => {
         <Link className="nav-link" to="/meal-plans">Meal Plans</Link>
         <Link className="nav-link" to="/shopping-lists">Shopping Lists</Link>
         {userName == null && 
-        <Link className="nav-link" to="http://localhost:8080/login">Login</Link>
+        <Link className="nav-link" to="http://localhost:8080/login">Login/Register</Link>
         }
         {userName != null && 
         <Link className="nav-link" to="http://localhost:8080/profile">Hi {userName}</Link>
