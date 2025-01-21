@@ -10,6 +10,7 @@
 <div class="container py-5">
     <div class="rounded border p-4">
         <h2 class="text-center mb-4">Profile</h2>
+        <a href="/" class="btn btn-link">Home</a>
         <hr>
         <div class="row mb-2">
             <div class="col">First Name</div>
@@ -35,12 +36,15 @@
             <div class="col">Role</div>
             <div class="col" th:text="${appUser.role}"></div>
         </div>
-        <div class="row mb-2">
-            <div class="col">Created At</div>
-            <div class="col" th:text="${appUser.createdAt}"></div>
-        </div>
+<!--        <div class="row mb-2">-->
+<!--            <div class="col">Created At</div>-->
+<!--            <div class="col" th:text="${appUser.createdAt}"></div>-->
+<!--        </div>-->
         <hr>
-        <a href="/" class="btn btn-link">Home</a>
+        <h3>Saved Recipes</h3>
+        <div id="saved-recipes" class="row">
+            <!-- Saved recipes will be rendered here -->
+        </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

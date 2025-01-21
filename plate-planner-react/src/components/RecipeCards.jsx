@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 import RecipeAddTag from "./RecipeAddTag";
 import AddRecipeToMealPlan from "./AddRecipeToMealPlan";
-
-function handleSaveRecipe(recipeId) {
-    console.log("Recipe with ID (" + recipeId + ") saved to My Recipes!")
-}
+import axios from "axios";
 
 function handleAddRecipeToMealPlan(recipeId) {
     //open a modal, allow user to select meal plan or create new meal plan, call API
@@ -17,6 +14,15 @@ function RecipeCards(props) {
     const [title, setTitle] = useState(props.title);
     const [stateCounter, setStateCounter] = useState(0);
 
+    const handleSaveRecipe = async (recipeId) => {
+            const recipeToSave = recipes.find(recipe => recipe.id === recipeId);
+            try {
+                const response = await axios.post('http://localhost:8080/recipe/save', recipeToSave);
+                console.log("Recipe with ID (" + recipeId + ") saved to My Recipes!:", response.data);
+            } catch (error) {
+                console.error("Error saving recipe:", error);
+            }
+        };
 
     if (recipes != undefined) {
         return (
@@ -54,9 +60,21 @@ function RecipeCards(props) {
                     <p>{recipe.instructions}</p>
                     <div className="container">
                         <div className="row justify-content-around">
-                        {recipe.id == null &&
-                            <div className="col-4">
-                                <Button label="Save Recipe" onClick={() => handleSaveRecipe(recipe.id)}/>
+                        {<div className="container">
+                                <div className="row justify-content-around">
+                                    <div className="col-4">
+                                        {recipe.id == null ? (
+                                            <Button label="Save Recipe" onClick={() => handleSaveRecipe(recipe.id)}/>
+                                        ) : (
+                                            <AddRecipeToMealPlan recipeId={recipe.id} />
+                                        )}
+                                    </div>
+                                    {recipe.id != null && (
+                                        <div className="col-4">
+                                            <RecipeAddTag recipe={recipe} setStateCounter={setStateCounter} counter={stateCounter} />
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         }
                         {recipe.id != null &&

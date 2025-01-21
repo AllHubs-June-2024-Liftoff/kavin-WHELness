@@ -60,6 +60,11 @@ public class RecipeController {
         }
         return ResponseEntity.noContent().build();
     }
+    @PostMapping("/save")
+    public ResponseEntity<Recipe> saveRecipe(@RequestBody Recipe recipe) {
+        Recipe savedRecipe = recipeRepository.save(recipe);
+        return ResponseEntity.ok(savedRecipe);
+    }
 
     @PostMapping("/update/{recipeId}")
     public ResponseEntity<Object> updateRecipe(@PathVariable("recipeId") Long recipeId, @RequestBody @Valid Recipe recipe) {
