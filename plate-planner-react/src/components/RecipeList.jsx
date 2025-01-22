@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import RecipeCards from './RecipeCards.jsx';
 import recipeService from "@/services/recipeService.js";
 
@@ -6,6 +7,11 @@ const RecipeList = () => {
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    //begin useStates for filter-recipes-by-tag
+    const [retrievedUserRecipes, setRetrievedUserRecipes] = useState([]);
+    const [tags, setTags] = useState([]);
+    const [selectedTags, setSelectedTags] = useState([]);
+    //end of useStates for filter-recipe-by-tag
 
     useEffect(() => {
         recipeService.getAll()
@@ -18,6 +24,20 @@ const RecipeList = () => {
                 setLoading(false);
             });
     }, []);
+
+    // begin useEffect for filter-recipes-by-tag
+    useEffect(() => {
+        recipeService.getAll()
+            .then((response) => {
+                setRetrievedUserRecipes(response.data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                setError(err.message);
+                setLoading(false);
+            });
+    }, []);
+    // end useEffect for filter-recipe-by-tag
 
     if (loading) {
         return <p>Loading recipes...</p>;
