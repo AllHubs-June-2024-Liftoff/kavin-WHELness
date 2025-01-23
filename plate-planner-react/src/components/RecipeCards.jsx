@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import Button from "./Button";
-import RecipeAddTag from "./RecipeAddTag";
 import AddRecipeToMealPlan from "./AddRecipeToMealPlan";
+import Button from "./Button";
+import PropTypes from "prop-types";
+import RecipeAddTag from "./RecipeAddTag";
+import { useState } from "react";
 
 function handleSaveRecipe(recipeId) {
     console.log("Recipe with ID (" + recipeId + ") saved to My Recipes!")
@@ -12,21 +13,21 @@ function handleAddRecipeToMealPlan(recipeId) {
     console.log("Recipe with ID (" + recipeId + ") saved to Meal Plan!" )
 }
 
-function RecipeCards(props) {
-    const [recipes, setRecipes] = useState(props.recipes);
-    const [title, setTitle] = useState(props.title);
+// this will tell RecipeCards what props (and what the types are) so intellij doesn't freak out!
+RecipeCards.propTypes = {
+    recipes: PropTypes.array,
+    title: PropTypes.string
+};
+
+function RecipeCards({ recipes = [], title }) {
     const [stateCounter, setStateCounter] = useState(0);
 
-
     if (recipes != undefined) {
-
         return (
-         <div key="recipecards">
+        <div key="recipecards">
             {recipes != null && title && 
                 <h1>{recipes.length} {title}</h1>
             }
-            
-
             {recipes.map((recipe) => (
                 <div key={recipe.id != null ? recipe.id : recipe.name} className="card">
                     <h2 className='card-title'>{recipe.name}</h2>
@@ -72,7 +73,7 @@ function RecipeCards(props) {
                                 <RecipeAddTag recipe={recipe} setStateCounter={setStateCounter} counter={stateCounter} />
                             </div>
                         }
-                 </div>
+                </div>
                     </div>
                 </div>
             ))}
