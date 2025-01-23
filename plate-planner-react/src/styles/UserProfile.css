@@ -1,0 +1,38 @@
+.user-profile {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .user-profile h2 {
+    margin-bottom: 20px;
+  }
+  
+  .user-profile-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .user-profile-table th,
+  .user-profile-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .user-profile-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .user-profile-table .field-name {
+    text-transform: capitalize;
+  }
+  
+  .user-profile-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .user-profile-table tr:hover {
+    background-color: #f1f1f1;
+  }
