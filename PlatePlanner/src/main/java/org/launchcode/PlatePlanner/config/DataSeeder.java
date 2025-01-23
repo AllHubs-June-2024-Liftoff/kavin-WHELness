@@ -1,25 +1,24 @@
 package org.launchcode.PlatePlanner.config;
 
 import org.launchcode.PlatePlanner.model.*;
-import org.launchcode.PlatePlanner.repository.MealPlanRepository;
-import org.launchcode.PlatePlanner.repository.IngredientRepository;
-import org.launchcode.PlatePlanner.repository.RecipeRepository;
-import org.launchcode.PlatePlanner.repository.TagRepository;
-import org.launchcode.PlatePlanner.repository.UserRepository;
+import org.launchcode.PlatePlanner.repository.*;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Configuration
 public class DataSeeder {
 
     @Bean
-    public ApplicationRunner seedData(UserRepository userRepository, RecipeRepository recipeRepository, IngredientRepository ingredientRepository, TagRepository tagRepository, MealPlanRepository mealPlanRepository) {
+    public ApplicationRunner seedData(
+            UserRepository userRepository,
+            RecipeRepository recipeRepository,
+            IngredientRepository ingredientRepository,
+            TagRepository tagRepository,
+            MealPlanRepository mealPlanRepository,
+            ShoppingListRepository shoppingListRepository) {
         return args -> {
 
             System.out.println("DataSeeder is running...");
@@ -134,50 +133,79 @@ public class DataSeeder {
                 System.out.println("Recipe 2 saved.");
             }
 
-            if (mealPlanRepository.count() == 0) {
-                System.out.println("Seeding meal plan");
+//            if (mealPlanRepository.count() == 0) {
+//                System.out.println("Seeding meal plan");
+//
+//                Optional<User> optionalUser = userRepository.findById(1L);
+//
+//                if (optionalUser.isEmpty()) {
+//                    throw new RuntimeException("User not found");
+//                }
+//
+//                User user1 = optionalUser.get();
+//
+//                List<Recipe> recipeSet = new ArrayList<>(recipeRepository.findAll());
+//
+//                if (recipeSet.isEmpty()) {
+//                    throw new RuntimeException("Recipes not found");
+//                }
+//
+//                MealPlan testMealPlan = new MealPlan(user1, "Test Meal Plan");
+//                System.out.println("Meal plan (" + testMealPlan.toString() + ") created and recipes added. Now saving meal plan to database.");
+//
+//                MealPlanRecipe mealPlanRecipe1 = new MealPlanRecipe(testMealPlan, recipeSet.get(0), DayOfTheWeek.SUNDAY);
+//                MealPlanRecipe mealPlanRecipe2 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.SUNDAY);
+//                MealPlanRecipe mealPlanRecipe3 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.MONDAY);
+//                MealPlanRecipe mealPlanRecipe4 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.TUESDAY);
+//                MealPlanRecipe mealPlanRecipe5 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.WEDNESDAY);
+//                MealPlanRecipe mealPlanRecipe6 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.THURSDAY);
+//                MealPlanRecipe mealPlanRecipe7 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.FRIDAY);
+//                MealPlanRecipe mealPlanRecipe8 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.SATURDAY);
+//
+//                testMealPlan.addMealPlanRecipe(mealPlanRecipe1);
+//                testMealPlan.addMealPlanRecipe(mealPlanRecipe2);
+//                testMealPlan.addMealPlanRecipe(mealPlanRecipe3);
+//                testMealPlan.addMealPlanRecipe(mealPlanRecipe4);
+//                testMealPlan.addMealPlanRecipe(mealPlanRecipe5);
+//                testMealPlan.addMealPlanRecipe(mealPlanRecipe6);
+//                testMealPlan.addMealPlanRecipe(mealPlanRecipe7);
+//                testMealPlan.addMealPlanRecipe(mealPlanRecipe8);
+//
+//                System.out.println("MealPlanRecipe objects created and added to MealPlan");
+//
+//                mealPlanRepository.save(testMealPlan);
+//
+//                System.out.println("Meal plan saved.");
+//            }
 
-                Optional<User> optionalUser = userRepository.findById(1L);
 
-                if (optionalUser.isEmpty()) {
-                    throw new RuntimeException("User not found");
-                }
-
-                User user1 = optionalUser.get();
-
-                List<Recipe> recipeSet = new ArrayList<>(recipeRepository.findAll());
-
-                if (recipeSet.isEmpty()) {
-                    throw new RuntimeException("Recipes not found");
-                }
-
-                MealPlan testMealPlan = new MealPlan(user1, "Test Meal Plan");
-                System.out.println("Meal plan (" + testMealPlan.toString() + ") created and recipes added. Now saving meal plan to database.");
-
-                MealPlanRecipe mealPlanRecipe1 = new MealPlanRecipe(testMealPlan, recipeSet.get(0), DayOfTheWeek.SUNDAY);
-                MealPlanRecipe mealPlanRecipe2 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.SUNDAY);
-                MealPlanRecipe mealPlanRecipe3 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.MONDAY);
-                MealPlanRecipe mealPlanRecipe4 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.TUESDAY);
-                MealPlanRecipe mealPlanRecipe5 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.WEDNESDAY);
-                MealPlanRecipe mealPlanRecipe6 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.THURSDAY);
-                MealPlanRecipe mealPlanRecipe7 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.FRIDAY);
-                MealPlanRecipe mealPlanRecipe8 = new MealPlanRecipe(testMealPlan, recipeSet.get(1), DayOfTheWeek.SATURDAY);
-
-                testMealPlan.addMealPlanRecipe(mealPlanRecipe1);
-                testMealPlan.addMealPlanRecipe(mealPlanRecipe2);
-                testMealPlan.addMealPlanRecipe(mealPlanRecipe3);
-                testMealPlan.addMealPlanRecipe(mealPlanRecipe4);
-                testMealPlan.addMealPlanRecipe(mealPlanRecipe5);
-                testMealPlan.addMealPlanRecipe(mealPlanRecipe6);
-                testMealPlan.addMealPlanRecipe(mealPlanRecipe7);
-                testMealPlan.addMealPlanRecipe(mealPlanRecipe8);
-
-                System.out.println("MealPlanRecipe objects created and added to MealPlan");
-
-                mealPlanRepository.save(testMealPlan);
-
-                System.out.println("Meal plan saved.");
-            }
+//            if (shoppingListRepository.count() == 0) {
+//                System.out.println("Creating an empty shopping list...");
+//
+//                Optional<User> optionalUser = userRepository.findById(1L);
+//
+//                if (optionalUser.isEmpty()) {
+//                    throw new RuntimeException("User not found");
+//                }
+//
+//                User user1 = optionalUser.get();
+//
+//                Optional<MealPlan> optionalMealPlan = mealPlanRepository.findById(1L);
+//
+//                if (optionalMealPlan.isEmpty()) {
+//                    throw new RuntimeException("Meal plan not found");
+//                }
+//
+//                MealPlan mealPlan1 = optionalMealPlan.get();
+//                Set<ShoppingListItem> shoppingListItems = new HashSet<>();
+//
+//                ShoppingList emptyList = new ShoppingList(mealPlan1, user1, shoppingListItems);
+//
+//                shoppingListRepository.save(emptyList);
+//
+//                System.out.println("Empty shopping list created for user: " + user1.getUsername() +
+//                        ", linked to meal plan: " + mealPlan1.getName());
+//            }
 
         };
     }

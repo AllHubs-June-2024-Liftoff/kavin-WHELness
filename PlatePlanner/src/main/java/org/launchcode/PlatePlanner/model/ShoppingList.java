@@ -19,7 +19,6 @@ public class ShoppingList extends AbstractEntity {
     @NotNull
     private User user;
 
-    @NotNull
     private String name;
 
     @NotNull

@@ -73,7 +73,7 @@ export default function App(props) {
     const updateRecipe = () => {
         setActionMsg("Updating recipe with tags...");
 
-        if (tagIdsToSave == null && (recipeToTag.tags == null || recipeToTag.tags.length == 0)) {
+        if ((tagIdsToSave == null || tagIdsToSave.length == 0) && (recipeToTag.tags == null || recipeToTag.tags.length == 0)) {
             setActionMsg("Please select one or more tags before clicking Update Tags.");
             setTimeout(() => {
                     setActionMsg(null);
@@ -91,7 +91,7 @@ export default function App(props) {
                     console.log("recipeToTag: ", recipeToTag);
                 } else {
                     setActionMsg("Tags removed from recipe.");
-                    recipeToTag.tags = tagsToSave;
+                    recipeToTag.tags = [];
                 }
             })
             .catch((err) => {
