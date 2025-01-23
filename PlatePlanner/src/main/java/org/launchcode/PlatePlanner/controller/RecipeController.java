@@ -196,4 +196,25 @@ public class RecipeController {
         }
     }
 
+    //Get user recipes
+    @GetMapping("/user-recipes/{userId}")
+    public ResponseEntity<List<Recipe>> getAllUserRecipes(@PathVariable("userId") Long userId) {
+        logger.info("In getAllUserRecipes...");
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty()) {
+            logger.warn("User with ID {} not found...", userId);
+            return ResponseEntity.notFound().build();
+        }
+
+        User user = optionalUser.get();
+
+        Set<Recipe> recipeSet = user.getRecipes();
+        if (recipeSet.isEmpty()) {
+            logger.warn("No Recipe(s) found for user with ID {}...", userId);
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(new ArrayList<>(recipeSet));
+    }
+
 }

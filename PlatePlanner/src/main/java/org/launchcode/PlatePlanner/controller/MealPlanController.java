@@ -130,6 +130,7 @@ public class MealPlanController {
         }
     }
 
+    //Get user meal plans
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<MealPlan>> getAllUserMealPlans(@PathVariable("userId") Long userId) {
         logger.info("In getAllUserMealPlans...");

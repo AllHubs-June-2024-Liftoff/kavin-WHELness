@@ -131,4 +131,20 @@ updateTagsToRecipe(recipeId, tagIds) {
 filterRecipesByTag(userId, tagIds) {
   return httpClient.get(`/recipe/filter-by-tag/${userId}`, tagIds);
 },
+/**
+   * This is the GET service call to retrieve a user's recipes.
+   * It will return a 200 response with the list of the user's recipe objects.
+   * If no user is found with the specified ID, it will return a 404.
+   * If no recipes are found belonging to the user, it will return a 404.
+   * 
+   * It hits the /recipe/user-recipes/{userId} endpoint with a GET request.
+   * 
+   * To use it in a component, you would do something like this:
+   * @example recipeService.getAllUserRecipes(1).then((response) => console.log(response.data));
+   * @param userId The ID of the user whose recipes are being retrieved.
+   * @returns The list of Recipe objects belonging to the user.
+   */
+getAllUserRecipes(userId) {
+  return httpClient.get(`/recipe/user-recipes/${userId}`);
+},
 }
