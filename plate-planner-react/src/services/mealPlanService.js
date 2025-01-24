@@ -129,4 +129,12 @@ export default {
   addRecipeToMealPlan(recipeId, mealPlanId) {
     return httpClient.put(`/meal-plan/${mealPlanId}/add-recipe/${recipeId}`);
   },
+
+  addRecipeOnDay(mealPlanId, recipeId, selectedDay) {
+    return httpClient.put(`/meal-plan/${mealPlanId}/add-recipe/${recipeId}/add-to-day/${selectedDay}`);
+  },
+
+  getUserMealPlan() {
+    return httpClient.get("/meal-plan");
+  }
 }

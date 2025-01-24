@@ -51,7 +51,7 @@ public class RecipeController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Object> createRecipe(@RequestBody @Valid Recipe recipe, Errors errors) {
+    public ResponseEntity<Object> createRecipe(@RequestBody @Valid Recipe recipe, Errors errors, @AuthenticationPrincipal UserDetails userDetails ) {
         logger.info("In createRecipe...");
         recipe.assignToIngredients();
         recipeRepository.save(recipe);
@@ -62,7 +62,7 @@ public class RecipeController {
     }
 
     @PostMapping("/update/{recipeId}")
-    public ResponseEntity<Object> updateRecipe(@PathVariable("recipeId") Long recipeId, @RequestBody @Valid Recipe recipe) {
+    public ResponseEntity<Object> updateRecipe(@PathVariable("recipeId") Long recipeId, @RequestBody @Valid Recipe recipe, @AuthenticationPrincipal UserDetails userDetails) {
         logger.info("In updateRecipe...");
         if (recipeRepository.existsById(recipeId)) {
             logger.info("Recipe with ID {} found.  Updating...", recipeId);

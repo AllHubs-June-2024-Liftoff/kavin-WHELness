@@ -19,7 +19,7 @@ public class ShoppingListItem extends AbstractEntity {
 
     @NotNull
     @Max(value = 1000, message = "Quantity cannot exceed 1000.")
-    private float quantity;
+    private double quantity;
 
     @NotNull
     @Length(max=20, message = "Unit cannot exceed 20 characters.")
@@ -27,7 +27,7 @@ public class ShoppingListItem extends AbstractEntity {
 
     public ShoppingListItem() {}
 
-    public ShoppingListItem(Ingredient ingredient, float quantity, String unit) {
+    public ShoppingListItem(Ingredient ingredient, double quantity, String unit) {
         this.ingredient = ingredient;
         this.quantity = quantity;
         this.unit = unit;
@@ -49,11 +49,11 @@ public class ShoppingListItem extends AbstractEntity {
         this.ingredient = ingredient;
     }
 
-    public float getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(float quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 

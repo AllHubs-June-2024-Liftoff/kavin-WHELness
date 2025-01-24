@@ -1,9 +1,7 @@
 package org.launchcode.PlatePlanner.controller;
 
 import jakarta.validation.Valid;
-import org.launchcode.PlatePlanner.model.MealPlan;
-import org.launchcode.PlatePlanner.model.Recipe;
-import org.launchcode.PlatePlanner.model.User;
+import org.launchcode.PlatePlanner.model.*;
 import org.launchcode.PlatePlanner.repository.MealPlanRepository;
 import org.launchcode.PlatePlanner.repository.RecipeRepository;
 import org.launchcode.PlatePlanner.repository.UserRepository;
@@ -12,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,6 +51,46 @@ public class MealPlanController {
         } else {
             logger.warn("MealPlan with ID {} not found...", mealPlanId);
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    //Creates meal plan if none exists for the user and returns the meal plan.
+
+    @GetMapping
+    public ResponseEntity<Optional<MealPlan>> getOrCreateMealPlan(@AuthenticationPrincipal UserDetails userDetails) {
+
+        if (userDetails == null) {
+            logger.error("No authenticated user found. Cannot retrieve meal plan.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String username = userDetails.getUsername();
+        logger.info("Authenticated user: {}", username); // Print username
+
+
+        logger.info("In getOrCreateMealPlan for User: {}", username);
+
+        logger.info("Retrieving userID and meal plan.");
+
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isEmpty()) {
+            logger.error("No user found with username: {}", username);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        User user = optionalUser.get();
+        logger.info("User ID: {}", user.getId());
+
+        Set<MealPlan> mealPlans = user.getMealPlans();
+
+        if (mealPlans.isEmpty()) {
+            logger.info("User has no meal plans. Creating a new meal plan...");
+            MealPlan newMealPlan = new MealPlan(user, "New Meal Plan");
+            mealPlanRepository.save(newMealPlan);
+            return ResponseEntity.ok(Optional.of(newMealPlan));
+        } else {
+            logger.info("Meal plan has been found.");
+            return ResponseEntity.ok(Optional.of(mealPlans.iterator().next()));
         }
     }
 
@@ -156,6 +196,47 @@ public class MealPlanController {
         mealPlan.addRecipe(recipe);
 
         MealPlan updatedMealPlan = mealPlanRepository.save(mealPlan);
+
+        return ResponseEntity.ok(updatedMealPlan);
+    }
+
+    //Method for adding a recipe to the meal plan with a selected day.
+
+    @PutMapping("/{mealPlanId}/add-recipe/{recipeId}/add-to-day/{selectedDay}")
+    public ResponseEntity<MealPlan> addRecipeToMealPlanOnSelectedDay(@PathVariable("mealPlanId") Long mealPlanId, @PathVariable("recipeId") Long recipeId, @PathVariable("selectedDay") String selectedDay) {
+        logger.info("In addRecipeToMealPlan...");
+        Optional<MealPlan> optionalMealPlan = mealPlanRepository.findById(mealPlanId);
+        if (optionalMealPlan.isEmpty()) {
+            logger.warn("MealPlan with ID {} not found...", mealPlanId);
+            return ResponseEntity.notFound().build();
+        }
+
+        logger.info("MealPlan with ID {} found...", mealPlanId);
+        MealPlan mealPlan = optionalMealPlan.get();
+
+        Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+        if (optionalRecipe.isEmpty()) {
+            logger.warn("Recipe with ID {} not found...", recipeId);
+            return ResponseEntity.notFound().build();
+        }
+
+        logger.info("Recipe with ID {} found...", recipeId);
+        Recipe recipe = optionalRecipe.get();
+
+        DayOfTheWeek dayOfTheWeek;
+        try {
+            dayOfTheWeek = DayOfTheWeek.valueOf(selectedDay.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid day'{}'", selectedDay);
+            return ResponseEntity.badRequest().build();
+        }
+
+        MealPlanRecipe mealPlanRecipe = new MealPlanRecipe(mealPlan, recipe, dayOfTheWeek);
+
+        mealPlan.addMealPlanRecipe(mealPlanRecipe);
+
+        MealPlan updatedMealPlan = mealPlanRepository.save(mealPlan);
+        logger.info("MealPlan ID {} updated with Recipe {} on day {}", mealPlanId, recipeId, dayOfTheWeek);
 
         return ResponseEntity.ok(updatedMealPlan);
     }
