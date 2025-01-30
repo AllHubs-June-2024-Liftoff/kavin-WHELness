@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +18,10 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@AllArgsConstructor
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Table(name = "\"User\"")
 public class User extends AbstractEntity implements UserDetails {
 
     @NotNull
@@ -48,6 +53,9 @@ public class User extends AbstractEntity implements UserDetails {
     private String phone;
     private String address;
 
+    private boolean accountVerified;
+    private boolean loginDisabled;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<MealPlan> mealPlans = new HashSet<>();
@@ -58,6 +66,23 @@ public class User extends AbstractEntity implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<ShoppingList> shoppingLists = new HashSet<>();
+
+
+    public void setAccountVerified(boolean accountVerified) {
+        this.accountVerified = accountVerified;
+    }
+
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_token",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "token_id")}
+    )
+    Set<SecureToken> token;
+
+
+//    @OneToMany(mappedBy = "user")
+//    Set<SecureToken> token;
 
     public User() {}
 
@@ -175,6 +200,10 @@ public class User extends AbstractEntity implements UserDetails {
         this.lastName = lastName;
     }
 
+    public void setLoginDisabled(boolean loginDisabled) {
+        this.loginDisabled = loginDisabled;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -218,4 +247,7 @@ public class User extends AbstractEntity implements UserDetails {
         return enabled;
     }
 
+    public Role[] getRoles() {
+        return new Role[]{this.role};
+    }
 }
