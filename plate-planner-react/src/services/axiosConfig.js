@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { BASE_URL } from '../globalvars';
 
 /**
  * This is the base configuration for axios.
@@ -10,7 +11,7 @@ import axios from 'axios';
  * @return An axios instance with the base URL set to our backend server.
  */
 const httpClient = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: BASE_URL,
   withCredentials: true
 });
 

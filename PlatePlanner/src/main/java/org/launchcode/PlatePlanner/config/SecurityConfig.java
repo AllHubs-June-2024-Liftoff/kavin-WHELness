@@ -40,9 +40,9 @@ public class SecurityConfig {
                         .anyRequest().permitAll())
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("http://localhost:8080/secure-access/process-login", true)
+                        .defaultSuccessUrl("/secure-access/process-login", true)
                         .usernameParameter("email"))
-                .logout(config -> config.logoutSuccessUrl("http://localhost:8080/secure-access/process-logout"))
+                .logout(config -> config.logoutSuccessUrl("/secure-access/process-logout"))
                 .build();
 
     }
@@ -63,7 +63,7 @@ public class SecurityConfig {
     @Bean
     UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        configuration.setAllowedOrigins(Arrays.asList("*"));
         // configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","PATCH"));
         // configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));

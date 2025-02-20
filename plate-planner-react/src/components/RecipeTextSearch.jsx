@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { BASE_URL } from '../globalvars';
 import RecipeCards from "./RecipeCards.jsx";
+
 
 const RecipeTextSearch = () => {
   const [query, setQuery] = useState("");
@@ -13,14 +14,12 @@ const RecipeTextSearch = () => {
     setQuery(e.target.value);
   };
 
-  //http://localhost:8080/search-recipes?q=${query}
-  //http://localhost:8080/recipes
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     setHasSearched(true);
-    fetch("http://localhost:8080/search-recipes?q=" + query, {
+    fetch(BASE_URL + "/search-recipes?q=" + query, {
       credentials: "include",
       mode: "cors",
     })

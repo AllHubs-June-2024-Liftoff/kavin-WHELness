@@ -55,7 +55,7 @@ public class SecurityController {
         */
 
 
-        response.sendRedirect("http://localhost:5173");
+        response.sendRedirect("/");
 
         return "Success";
     }
@@ -67,7 +67,7 @@ public class SecurityController {
         cookie.setMaxAge(0); // Set the max age to 0 to delete the cookie
         cookie.setPath("/"); // Set the path to match the cookie you want to remove
         response.addCookie(cookie); // Add the cookie to the response
-        response.sendRedirect("http://localhost:5173");
+        response.sendRedirect("/");
 
         return "Success";
 
