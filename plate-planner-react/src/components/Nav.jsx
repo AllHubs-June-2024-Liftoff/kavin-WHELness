@@ -21,12 +21,12 @@ const Nav = () => {
         <Link className="nav-link" to="/shopping-lists">
           Shopping List
         </Link>
-        <Link className="nav-link" to="http://localhost:8080/profile">
+        <a className="nav-link" href="/profile">
           Hi {userName}
-        </Link>
-        <Link className="nav-link" to="http://localhost:8080/logout">
+        </a>
+        <a className="nav-link" href="/logout">
           Logout
-        </Link>
+        </a>
       </nav>
     );
   } else {
@@ -44,9 +44,9 @@ const Nav = () => {
         <Link className="nav-link disabled" to="#">
           Shopping Lists
         </Link>
-        <Link className="nav-link" to="http://localhost:8080/login">
+        <a className="nav-link" href="/login">
           Login/Register
-        </Link>
+        </a>
       </nav>
     );
   }

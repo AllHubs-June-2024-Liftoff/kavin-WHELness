@@ -32,9 +32,9 @@ public class MealPlan extends AbstractEntity {
     @NotNull
     private LocalDateTime createdAt;
 
-    private LocalDateTime startDate;
+//    private LocalDateTime startDate;
 
-    private LocalDateTime endDate;
+//    private LocalDateTime endDate;
 
     public MealPlan() {}
 
@@ -92,21 +92,21 @@ public class MealPlan extends AbstractEntity {
         this.name = name;
     }
 
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
+//    public LocalDateTime getStartDate() {
+//        return startDate;
+//    }
+//
+//    public void setStartDate(LocalDateTime startDate) {
+//        this.startDate = startDate;
+//    }
 
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDateTime getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
-    }
+//    public LocalDateTime getEndDate() {
+//        return endDate;
+//    }
+//
+//    public void setEndDate(LocalDateTime endDate) {
+//        this.endDate = endDate;
+//    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
